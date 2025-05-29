@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta name="description" content="contact hos">
+<link rel="icon" href="logo.png">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hospill.com</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+
+        @property --saber-angle {
+          syntax: '<angle>';
+          initial-value: 0deg;
+          inherits: false;
+        }
+
+        body {
+            background-color: black;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'DM Sans', sans-serif;
+            overflow: hidden; 
+            position: relative; 
+        }
+
+        #freeCounterContainer {
+            position: fixed; 
+            top: 15px;     
+            right: 20px;     
+            z-index: 1000; 
+        }
+
+        #freeCounterContainer a {
+            font-size: 0.7em; 
+            color: rgba(255, 255, 255, 0.5); 
+            text-decoration: none;
+            display: block; 
+            text-align: right; 
+        }
+         #freeCounterContainer a:hover {
+            color: rgba(255, 255, 255, 0.8);
+         }
+
+
+        .container {
+            text-align: center;
+            position: relative; 
+            z-index: 10; 
+            margin-bottom: 20px; /* Increased margin for better spacing between buttons */
+        }
+
+        .button-link {
+            text-decoration: none;
+        }
+
+        .contact-button { /* Renamed for clarity, can be a generic class like .styled-button */
+            background-color: white;
+            color: black;
+            border: none;
+            padding: 20px 40px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.3em;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                        box-shadow 0.5s ease-out; 
+            opacity: 0;
+            animation:
+                fadeInBounce 1s ease forwards,
+                breathingEffect 2.5s ease-in-out 1s infinite alternate;
+            position: relative; 
+            z-index: 1; 
+        }
+
+        .contact-button::before { /* Renamed for clarity */
+            content: '';
+            position: absolute;
+            inset: -3px; 
+            border-radius: 53px; 
+            z-index: 0; 
+            background: conic-gradient(
+                from var(--saber-angle) at 50% 50%,
+                transparent 0%,
+                transparent 40%,
+                rgba(255, 255, 255, 0.8) 48%, 
+                white 50%,          
+                rgba(255, 255, 255, 0.8) 52%, 
+                transparent 60%,
+                transparent 100%
+            );
+            animation: saberAngleAnimation 2.5s linear infinite;
+            filter: blur(2px); 
+        }
+
+
+        .contact-button:hover { /* Renamed for clarity */
+            transform: translateY(-15px) scale(1.2);
+            box-shadow: 0 0 15px 3px rgba(255, 255, 255, 0.5),
+                        0 0 30px 10px rgba(255, 255, 255, 0.3);
+        }
+
+        #melbourneTimeContainer {
+            font-size: 0.9em; 
+            color: rgba(255, 255, 255, 1); 
+            text-align: center;
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            opacity: 0; 
+            animation: fadeInBounce 1s ease 0.3s forwards; 
+            transition: transform 0.3s ease-out, color 0.3s ease-out; 
+            cursor: default; 
+        }
+
+        #melbourneTimeContainer:hover {
+            transform: scale(1.15); 
+            color: rgba(255, 255, 255, 0.8); 
+        }
+
+        @keyframes fadeInBounce {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            60% {
+                opacity: 1;
+                transform: translateY(-12px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes breathingEffect { 
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes saberAngleAnimation {
+          to {
+            --saber-angle: 360deg;
+          }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="https://t.me/hospitalise" target="_blank" rel="noopener noreferrer" class="button-link">
+            <button class="contact-button">contact me</button>
+        </a>
+    </div>
+
+    <div class="container">
+        <a href="https://type.rip/" target="_blank" rel="noopener noreferrer" class="button-link">
+            <button class="contact-button">type.rip</button>
+        </a>
+    </div>
+
+    <div id="melbourneTimeContainer">
+        Loading time...
+    </div>
+
+    <script>
+        function updateMelbourneTime() {
+            const melbourneTimeDiv = document.getElementById('melbourneTimeContainer');
+            if (melbourneTimeDiv) {
+                try {
+                    const now = new Date();
+                    const options = {
+                        timeZone: 'Australia/Melbourne',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        hour12: true 
+                    };
+                    const melbourneTime = now.toLocaleTimeString('en-AU', options);
+                    melbourneTimeDiv.textContent = `melbourne: ${melbourneTime}`;
+                } catch (error) {
+                    melbourneTimeDiv.textContent = "Could not load time.";
+                    if (error instanceof RangeError) { 
+                         const nowLocal = new Date();
+                         const localTimeOptions = {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            second: '2-digit',
+                            hour12: true 
+                         };
+                         melbourneTimeDiv.textContent = `Your Local Time: ${nowLocal.toLocaleTimeString(undefined, localTimeOptions)} (Timezone issue)`;
+                    }
+                }
+            }
+        }
+
+        window.onload = function() {
+            updateMelbourneTime();
+            setInterval(updateMelbourneTime, 1000);
+        };
+    </script>
+</body>
+</html>
